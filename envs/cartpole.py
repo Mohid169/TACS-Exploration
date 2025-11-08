@@ -45,6 +45,6 @@ class CartPole(Env):
         return np.array([x_new, xd_new, th_new, thd_new], dtype=float)
 
     def done(self, x: Array) -> bool:
-        #Stop the simulation if the pole falls beyond 60° or if the cart slides off the track.”
+        # Stop the simulation if the pole falls beyond 60° or if the cart slides off the track.”
         th, xc = x[2], x[0]
         return (abs(th) > np.deg2rad(60.0)) or (abs(xc) > self.L / 2)

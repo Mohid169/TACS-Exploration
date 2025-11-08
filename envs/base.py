@@ -17,6 +17,5 @@ class Env:
         raise NotImplementedError
 
     def done(self, x: Array) -> bool:
-        """Episode termination condition. 
-        """
+        """Episode termination condition."""
         raise NotImplementedError
