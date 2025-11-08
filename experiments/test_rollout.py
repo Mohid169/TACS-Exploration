@@ -10,13 +10,16 @@ dt = 0.02  # 20 ms integration step
 T = 5.0  # total simulation time
 steps = int(T / dt)
 
-# --- naive controller (for now, random force each step) ---
+
+#implemneting a small linear controller
+K = np.array([-1.0,-1.5, 25, 3.5])
 X = []
 U = []
 for _ in range(steps):
     if env.done(x):
         break
-    u = np.array([rng.uniform(-env.Fmax, env.Fmax)])  # random action
+    u = np.array([K @ x])  # random action
+    u = np.clip(u, -env.Fmax, env.Fmax)
     X.append(x.copy())
     U.append(u.copy())
     x = env.step(x, u, dt)
