@@ -13,13 +13,15 @@ class CartPole(Env):
         l: float = 0.5,  # pole length (hinge to COM)
         Fmax: float = 30.0,  # actuator limit
         L: float = 2.0,
+        g: float = 9.81,
     ):  # track length (termination only)
         self.mc, self.mp, self.l = mc, mp, l
         self.Fmax, self.L = Fmax, L
+        self.g = g
 
     def reset(self, rng: np.random.Generator) -> Array:
         th0 = rng.uniform(-0.2, 0.2)
-        return np.array([0.0, 0.0, th0, 0.0], Dtype=float)  # [x, xdot, th, thdot]
+        return np.array([0.0, 0.0, th0, 0.0], dtype=float)  # [x, xdot, th, thdot]
 
     def step(self, x: Array, u: Array, dt: float) -> Array:
         mc, mp, l = self.mc, self.mp, self.l
@@ -29,7 +31,7 @@ class CartPole(Env):
 
         # dynamics (standard cart-pole, continuous force)
         temp = (u + mp * l * thd**2 * np.sin(th)) / (mc + mp)
-        thdd = (g * np.sin(th) - np.cos(th) * temp) / (
+        thdd = (self.g * np.sin(th) - np.cos(th) * temp) / (
             l * (4.0 / 3.0 - (mp * (np.cos(th) ** 2)) / (mc + mp))
         )
         xdd = temp - (mp * l * thdd * np.cos(th)) / (mc + mp)
