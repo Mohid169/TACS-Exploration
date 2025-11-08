@@ -3,11 +3,11 @@ import matplotlib.pyplot as plt
 from envs.cartpole import CartPole
 
 # --- setup ---
-env = CartPole()                     # use default parameters
+env = CartPole()  # use default parameters
 rng = np.random.default_rng(0)
-x = env.reset(rng)                   # initial state
-dt = 0.02                            # 20 ms integration step
-T = 5.0                              # total simulation time
+x = env.reset(rng)  # initial state
+dt = 0.02  # 20 ms integration step
+T = 5.0  # total simulation time
 steps = int(T / dt)
 
 # --- naive controller (for now, random force each step) ---
