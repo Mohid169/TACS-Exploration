@@ -3,6 +3,7 @@ import numpy as np
 
 Array = np.ndarray
 
+
 class Env:
     "interface for one-step simulations"
     state_size: int
