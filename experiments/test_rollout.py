@@ -11,8 +11,8 @@ T = 5.0  # total simulation time
 steps = int(T / dt)
 
 
-#implemneting a small linear controller
-K = np.array([-1.0,-1.5, 25, 3.5])
+# implemneting a small linear controller
+K = np.array([-1.0, -1.5, 25, 3.5])
 X = []
 U = []
 for _ in range(steps):
