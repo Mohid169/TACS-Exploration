@@ -12,7 +12,7 @@ steps = int(T / dt)
 
 
 # implemneting a small linear controller
-K = np.array([1.0, 1.5, 25.0, 3.5])
+K = np.array([1.0, 1.5, 25.0, 3.5])  # tuned gains
 X = []
 U = []
 for _ in range(steps):
