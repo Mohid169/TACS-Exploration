@@ -13,8 +13,11 @@ def plot_timeseries(X: np.ndarray, U: np.ndarray, t: np.ndarray) -> None:
     ax[1].legend(); ax[1].set_ylabel("Action"); ax[1].set_xlabel("Time (s)")
     plt.tight_layout(); plt.show()
 
-def animate_cartpole(L: float, pole_len: float, X: np.ndarray, t: np.ndarray) -> None:
-    """Minimal 2D cart-pole animation."""
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+
+def animate_cartpole(L: float, pole_len: float, X: np.ndarray, t: np.ndarray):
     x = X[:, 0]
     th = X[:, 2]
     cart_w, cart_h = 0.20, 0.10
@@ -30,12 +33,7 @@ def animate_cartpole(L: float, pole_len: float, X: np.ndarray, t: np.ndarray) ->
     ax.add_patch(cart)
     (pole_line,) = ax.plot([], [], "o-", color="tab:orange", lw=2, markersize=6)
 
-    def init():
-        cart.set_xy((-cart_w/2, -cart_h/2))
-        pole_line.set_data([], [])
-        return cart, pole_line
-
-    def update(i):
+    def _set_frame(i):
         xc, yc = x[i], 0.0
         cart.set_xy((xc - cart_w/2, yc - cart_h/2))
         xp = xc + pole_len * np.sin(th[i])
@@ -43,6 +41,15 @@ def animate_cartpole(L: float, pole_len: float, X: np.ndarray, t: np.ndarray) ->
         pole_line.set_data([xc, xp], [yc, yp])
         return cart, pole_line
 
-    dt_ms = (t[1] - t[0]) * 1000 if len(t) > 1 else 20
-    animation.FuncAnimation(fig, update, frames=len(x), init_func=init, blit=True, interval=dt_ms)
-    plt.show()
+    def init():
+        # draw first frame so the figure isn't empty
+        return _set_frame(0)
+
+    interval_ms = float((t[1] - t[0]) * 1000) if len(t) > 1 else 20.0
+    ani = animation.FuncAnimation(
+        fig, _set_frame, frames=len(x), init_func=init,
+        blit=True, interval=interval_ms, repeat=False
+    )
+    # keep a reference so it doesn't get GC'ed
+    return fig, ani
+

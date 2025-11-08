@@ -6,6 +6,8 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 import numpy as np
 from envs.cartpole import CartPole
 from tacs.visualize import plot_timeseries, animate_cartpole
+import matplotlib.pyplot as plt
+
 
 def rollout(env, K, dt: float, T: float, rng=None):
     rng = rng or np.random.default_rng(0)
@@ -30,7 +32,8 @@ def main():
     X, U, t = rollout(env, K, dt, T)
 
     plot_timeseries(X, U, t)
-    animate_cartpole(L=env.L, pole_len=env.l, X=X, t=t)
+    fig, ani = animate_cartpole(L=env.L, pole_len=env.l, X=X, t=t)
+    plt.show()
 
 if __name__ == "__main__":
     main()
