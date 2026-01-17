@@ -184,8 +184,7 @@ class CartPoleDynamics:
             state_plus[i] += eps
             state_minus[i] -= eps
             
-            A[:, i] = (self.dynamics(state_plus, u) - 
-                      self.dynamics(state_minus, u)) / (2 * eps)
+            A[:, i] = (self.dynamics(state_plus, u) - self.dynamics(state_minus, u)) / (2 * eps)
         
         # Compute B = ∂f/∂u using central differences
         f_plus = self.dynamics(state, u + eps)
